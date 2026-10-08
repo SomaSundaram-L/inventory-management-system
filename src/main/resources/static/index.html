@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory Management System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #eef1f6;
+            color: #172033;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #101827;
+            color: white;
+            padding: 22px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.2);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            background: #f59e0b;
+            color: #101827;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+        }
+
+        .brand p {
+            color: #aeb8c9;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .status {
+            background: #172338;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #fbbf24;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 30px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            font-size: 28px;
+            color: #101827;
+        }
+
+        .page-title p {
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            border-left: 5px solid #f59e0b;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+        }
+
+        .stat-card:nth-child(2) {
+            border-left-color: #2563eb;
+        }
+
+        .stat-card:nth-child(3) {
+            border-left-color: #16a34a;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-title {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #101827;
+        }
+
+        /* PANEL */
+
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-heading h3 {
+            font-size: 19px;
+            color: #101827;
+        }
+
+        .panel-heading span {
+            color: #f59e0b;
+            font-size: 13px;
+        }
+
+        /* FORM */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            color: #4b5563;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5d9e2;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #fafbfc;
+        }
+
+        input:focus {
+            border-color: #f59e0b;
+            background: white;
+        }
+
+        /* BUTTONS */
+
+        .actions {
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 18px;
+            margin-right: 7px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .add-btn {
+            background: #f59e0b;
+            color: #101827;
+        }
+
+        .update-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .clear-btn {
+            background: #64748b;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* SEARCH */
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .search-box {
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .search-box h4 {
+            margin-bottom: 12px;
+            color: #101827;
+        }
+
+        .search-box input {
+            margin-bottom: 10px;
+        }
+
+        .search-btn {
+            background: #101827;
+            color: white;
+        }
+
+        .filter-btn {
+            background: #f59e0b;
+            color: #101827;
+        }
+
+        .show-btn {
+            background: #475569;
+            color: white;
+        }
+
+        /* TABLE */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        thead {
+            background: #101827;
+            color: white;
+        }
+
+        th {
+            padding: 14px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #fff8e7;
+        }
+
+        .quantity {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #15803d;
+        }
+
+        .category {
+            background: #fff3d6;
+            color: #a16207;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .edit-btn {
+            background: #2563eb;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        /* MESSAGE */
+
+        .message {
+            display: none;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                padding: 18px;
+            }
+
+            .status {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            📦
+        </div>
+
+        <div>
+            <h1>Inventory Management</h1>
+            <p>Inventory & Stock Control System</p>
+        </div>
+
+    </div>
+
+    <div class="status">
+        ● SYSTEM ACTIVE
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <!-- PAGE TITLE -->
+
+    <div class="page-title">
+
+        <h2>Inventory Dashboard</h2>
+
+        <p>
+            Manage products, stock quantity, suppliers and inventory value.
+        </p>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    TOTAL PRODUCTS
+                </div>
+
+                <div class="stat-icon">
+                    📦
+                </div>
+
+            </div>
+
+            <div
+                    class="stat-value"
+                    id="totalProducts">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    TOTAL STOCK
+                </div>
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+            </div>
+
+            <div
+                    class="stat-value"
+                    id="totalStock">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-title">
+                    INVENTORY VALUE
+                </div>
+
+                <div class="stat-icon">
+                    💰
+                </div>
+
+            </div>
+
+            <div
+                    class="stat-value"
+                    id="totalValue">
+                ₹0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD / UPDATE -->
+
+    <div class="panel">
+
+        <div class="panel-heading">
+
+            <h3>➕ Product Management</h3>
+
+            <span>Add or update product details</span>
+
+        </div>
+
+
+        <input
+                type="hidden"
+                id="inventoryId"
+        >
+
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>Product Name</label>
+
+                <input
+                        type="text"
+                        id="productName"
+                        placeholder="Enter product name"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Category</label>
+
+                <input
+                        type="text"
+                        id="category"
+                        placeholder="Enter category"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Quantity</label>
+
+                <input
+                        type="number"
+                        id="quantity"
+                        placeholder="Enter quantity"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Price</label>
+
+                <input
+                        type="number"
+                        id="price"
+                        placeholder="Enter price"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Supplier</label>
+
+                <input
+                        type="text"
+                        id="supplier"
+                        placeholder="Enter supplier"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="actions">
+
+            <button
+                    class="add-btn"
+                    onclick="addInventory()">
+                + Add Product
+            </button>
+
+            <button
+                    class="update-btn"
+                    onclick="updateInventory()">
+                ✏ Update Product
+            </button>
+
+            <button
+                    class="clear-btn"
+                    onclick="clearForm()">
+                Clear
+            </button>
+
+        </div>
+
+
+        <div
+                id="message"
+                class="message">
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="panel">
+
+        <div class="panel-heading">
+
+            <h3>🔎 Search & Filter</h3>
+
+            <span>Find inventory quickly</span>
+
+        </div>
+
+
+        <div class="search-grid">
+
+            <div class="search-box">
+
+                <h4>Search Product</h4>
+
+                <input
+                        type="text"
+                        id="searchProduct"
+                        placeholder="Example: Laptop"
+                >
+
+                <button
+                        class="search-btn"
+                        onclick="searchProduct()">
+                    🔎 Search
+                </button>
+
+                <button
+                        class="show-btn"
+                        onclick="loadInventory()">
+                    Show All
+                </button>
+
+            </div>
+
+
+            <div class="search-box">
+
+                <h4>Filter by Category</h4>
+
+                <input
+                        type="text"
+                        id="filterCategory"
+                        placeholder="Example: Electronics"
+                >
+
+                <button
+                        class="filter-btn"
+                        onclick="filterCategory()">
+                    📂 Filter
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INVENTORY TABLE -->
+
+    <div class="panel">
+
+        <div class="panel-heading">
+
+            <h3>📋 Inventory Records</h3>
+
+            <span>Current stock information</span>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Product</th>
+
+                    <th>Category</th>
+
+                    <th>Quantity</th>
+
+                    <th>Price</th>
+
+                    <th>Supplier</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="inventoryTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    Inventory Management System © 2026
+
+</footer>
+
+
+<script>
+
+    const API = "/inventory";
+
+
+    // LOAD INVENTORY
+
+    function loadInventory() {
+
+        fetch(API)
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Failed to load inventory");
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                displayInventory(data);
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Unable to load inventory",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // DISPLAY INVENTORY
+
+    function displayInventory(data) {
+
+        const table =
+            document.getElementById("inventoryTable");
+
+        table.innerHTML = "";
+
+        let totalStock = 0;
+
+        let totalValue = 0;
+
+
+        if (!data || data.length === 0) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="7"
+                        style="text-align:center; padding:25px; color:#64748b;">
+                        No inventory records found
+                    </td>
+                </tr>
+            `;
+
+        }
+
+
+        data.forEach(item => {
+
+            totalStock += Number(item.quantity);
+
+            totalValue +=
+                Number(item.quantity) *
+                Number(item.price);
+
+
+            const row =
+                document.createElement("tr");
+
+
+            row.innerHTML = `
+
+                <td>${item.id}</td>
+
+                <td>
+                    <strong>
+                        ${item.productName}
+                    </strong>
+                </td>
+
+                <td>
+                    <span class="category">
+                        ${item.category}
+                    </span>
+                </td>
+
+                <td class="quantity">
+                    ${item.quantity}
+                </td>
+
+                <td class="price">
+                    ₹${Number(item.price).toLocaleString("en-IN")}
+                </td>
+
+                <td>
+                    ${item.supplier}
+                </td>
+
+                <td>
+
+                    <button
+                        class="edit-btn"
+                        onclick="editInventory(${item.id})">
+                        Edit
+                    </button>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteInventory(${item.id})">
+                        Delete
+                    </button>
+
+                </td>
+
+            `;
+
+
+            table.appendChild(row);
+
+        });
+
+
+        document.getElementById(
+            "totalProducts"
+        ).innerText = data.length;
+
+
+        document.getElementById(
+            "totalStock"
+        ).innerText = totalStock;
+
+
+        document.getElementById(
+            "totalValue"
+        ).innerText =
+            "₹" + totalValue.toLocaleString("en-IN");
+
+    }
+
+
+    // GET FORM DATA
+
+    function getFormData() {
+
+        return {
+
+            productName:
+                document.getElementById(
+                    "productName"
+                ).value.trim(),
+
+            category:
+                document.getElementById(
+                    "category"
+                ).value.trim(),
+
+            quantity:
+                Number(
+                    document.getElementById(
+                        "quantity"
+                    ).value
+                ),
+
+            price:
+                Number(
+                    document.getElementById(
+                        "price"
+                    ).value
+                ),
+
+            supplier:
+                document.getElementById(
+                    "supplier"
+                ).value.trim()
+
+        };
+
+    }
+
+
+    // VALIDATION
+
+    function validateForm() {
+
+        const data = getFormData();
+
+
+        if (
+            !data.productName ||
+            !data.category ||
+            data.quantity <= 0 ||
+            data.price <= 0 ||
+            !data.supplier
+        ) {
+
+            showMessage(
+                "Please fill all fields correctly",
+                true
+            );
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
+
+    // ADD
+
+    function addInventory() {
+
+        if (!validateForm()) {
+            return;
+        }
+
+
+        const inventory =
+            getFormData();
+
+
+        fetch(API, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body:
+                JSON.stringify(inventory)
+
+        })
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Add failed");
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                showMessage(
+                    "Product added successfully"
+                );
+
+                clearForm();
+
+                loadInventory();
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Failed to add product",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // EDIT
+
+    function editInventory(id) {
+
+        fetch(`${API}/${id}`)
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Product not found");
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                document.getElementById(
+                    "inventoryId"
+                ).value = data.id;
+
+
+                document.getElementById(
+                    "productName"
+                ).value =
+                    data.productName;
+
+
+                document.getElementById(
+                    "category"
+                ).value =
+                    data.category;
+
+
+                document.getElementById(
+                    "quantity"
+                ).value =
+                    data.quantity;
+
+
+                document.getElementById(
+                    "price"
+                ).value =
+                    data.price;
+
+
+                document.getElementById(
+                    "supplier"
+                ).value =
+                    data.supplier;
+
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Failed to load product",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // UPDATE
+
+    function updateInventory() {
+
+        const id =
+            document.getElementById(
+                "inventoryId"
+            ).value;
+
+
+        if (!id) {
+
+            showMessage(
+                "Please select a product to update",
+                true
+            );
+
+            return;
+
+        }
+
+
+        if (!validateForm()) {
+            return;
+        }
+
+
+        const inventory =
+            getFormData();
+
+
+        fetch(`${API}/${id}`, {
+
+            method: "PUT",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body:
+                JSON.stringify(inventory)
+
+        })
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Update failed");
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                showMessage(
+                    "Product updated successfully"
+                );
+
+                clearForm();
+
+                loadInventory();
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Failed to update product",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // DELETE
+
+    function deleteInventory(id) {
+
+        if (
+            !confirm(
+                "Are you sure you want to delete this product?"
+            )
+        ) {
+            return;
+        }
+
+
+        fetch(`${API}/${id}`, {
+
+            method: "DELETE"
+
+        })
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Delete failed");
+                }
+
+                return response.text();
+
+            })
+
+            .then(data => {
+
+                showMessage(
+                    data || "Product deleted successfully"
+                );
+
+                loadInventory();
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Failed to delete product",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // SEARCH
+
+    function searchProduct() {
+
+        const productName =
+            document.getElementById(
+                "searchProduct"
+            ).value.trim();
+
+
+        if (!productName) {
+
+            showMessage(
+                "Enter a product name",
+                true
+            );
+
+            return;
+
+        }
+
+
+        fetch(
+            `${API}/search?productName=${encodeURIComponent(productName)}`
+        )
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Search request failed");
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                displayInventory(data);
+
+                if (data.length === 0) {
+
+                    showMessage(
+                        "No product found",
+                        true
+                    );
+
+                } else {
+
+                    showMessage(
+                        data.length + " product(s) found"
+                    );
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Search failed",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // CATEGORY FILTER
+
+    function filterCategory() {
+
+        const category =
+            document.getElementById(
+                "filterCategory"
+            ).value.trim();
+
+
+        if (!category) {
+
+            showMessage(
+                "Enter a category",
+                true
+            );
+
+            return;
+
+        }
+
+
+        fetch(
+            `${API}/category?category=${encodeURIComponent(category)}`
+        )
+
+            .then(response => {
+
+                if (!response.ok) {
+                    throw new Error("Category filter failed");
+                }
+
+                return response.json();
+
+            })
+
+            .then(data => {
+
+                displayInventory(data);
+
+                if (data.length === 0) {
+
+                    showMessage(
+                        "No products found in this category",
+                        true
+                    );
+
+                } else {
+
+                    showMessage(
+                        data.length +
+                        " product(s) found in this category"
+                    );
+
+                }
+
+            })
+
+            .catch(error => {
+
+                console.error(error);
+
+                showMessage(
+                    "Category filter failed",
+                    true
+                );
+
+            });
+
+    }
+
+
+    // CLEAR
+
+    function clearForm() {
+
+        document.getElementById(
+            "inventoryId"
+        ).value = "";
+
+
+        document.getElementById(
+            "productName"
+        ).value = "";
+
+
+        document.getElementById(
+            "category"
+        ).value = "";
+
+
+        document.getElementById(
+            "quantity"
+        ).value = "";
+
+
+        document.getElementById(
+            "price"
+        ).value = "";
+
+
+        document.getElementById(
+            "supplier"
+        ).value = "";
+
+    }
+
+
+    // MESSAGE
+
+    function showMessage(
+        message,
+        error = false
+    ) {
+
+        const box =
+            document.getElementById(
+                "message"
+            );
+
+
+        box.innerText = message;
+
+        box.style.display = "block";
+
+
+        box.className =
+            error
+                ? "message error"
+                : "message success";
+
+
+        setTimeout(() => {
+
+            box.style.display = "none";
+
+        }, 3000);
+
+    }
+
+
+    // INITIAL LOAD
+
+    window.onload = function () {
+
+        loadInventory();
+
+    };
+
+</script>
+
+</body>
+</html>
